@@ -6,6 +6,14 @@ library(shiny)
 library(bslib)
 library(googlesheets4)
 
+# define js function for opening urls in new tab/window
+js_code <- "
+shinyjs.browseURL = function(url) {
+  window.open(url,'_blank');
+}
+"
+URL <- "https://gcchemosensr.org/"
+
 # Authenticate and access the Google Sheet
 #gs4_auth()
 
@@ -32,11 +40,10 @@ ui <- fluidPage(
       selectInput("country", "Country:", c("All", sort(unique(tmp[,12])))),
       selectInput("name", "Clinician Name:", c("All", sort(tmp$Name))),
       checkboxGroupInput("metrics", "Information to display:", c("Country", "Name", "Specialty", "Clinic Name", "Address", "Phone Number", "Email", "Website", "Appointment Type")),
-      actionButton("gccr_button", "Visit GCCR website"),
+      tags$a(class="btn btn-default", href="https://gcchemosensr.org/", "Visit GCCR website",target="_blank"),
       br(),
       br(),
-      img(src = "https://gcchemosensr.org/assets/img/logo_draft_white.jpg",height = "100%", width = "100%"),
-      
+      img(src = "https://gcchemosensr.org/assets/img/logo_draft_white.jpg",height = "100%", width = "100%")
     ),
     # Add a main panel to display the table
     mainPanel(
@@ -65,12 +72,7 @@ server <- function(input, output) {
     data[,input$metrics,drop=F]
   })
   
-  # open link to GCCR website when button is clicked
-  observeEvent(input$gccr_button, {
-    browseURL("https://gcchemosensr.org/")
-  })
 }
 
 # Run the app
 shinyApp(ui, server)
-
