@@ -6,16 +6,9 @@ library(shiny)
 library(bslib)
 library(googlesheets4)
 
-# define js function for opening urls in new tab/window
-js_code <- "
-shinyjs.browseURL = function(url) {
-  window.open(url,'_blank');
-}
-"
-URL <- "https://gcchemosensr.org/"
-
 # Authenticate and access the Google Sheet
-#gs4_auth()
+#gs4_auth(cache = ".secrets") #for the first time running the app in R to get the OAuth token
+gs4_auth(cache = ".secrets", email = TRUE, use_oob = TRUE)
 
 clinician_data <- read_sheet('https://docs.google.com/spreadsheets/d/1m5xPT7LhVaGm7kpXwO22CCi0ICMI12DTjStSJiCfC4c/edit#gid=2027661689')
 tmp <- as.data.frame(clinician_data)
