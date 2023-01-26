@@ -8,7 +8,6 @@ library(googlesheets4)
 
 # Authenticate and access the Google Sheet
 #gs4_auth()
-#clinician_data <- gs4_read("1m5xPT7LhVaGm7kpXwO22CCi0ICMI12DTjStSJiCfC4c")
 
 clinician_data <- read_sheet('https://docs.google.com/spreadsheets/d/1m5xPT7LhVaGm7kpXwO22CCi0ICMI12DTjStSJiCfC4c/edit#gid=2027661689')
 tmp <- as.data.frame(clinician_data)
