@@ -4,6 +4,7 @@
 # Date: 26 Jan 2023
 library(shiny)
 library(bslib)
+library(DT)
 library(googlesheets4)
 
 # Authenticate and access the Google Sheet
@@ -40,7 +41,15 @@ ui <- fluidPage(
     ),
     # Add a main panel to display the table
     mainPanel(
-      dataTableOutput("clinician_table")
+      DT::DTOutput("clinician_table"),
+      DT::renderDT({
+        DT::datatable(
+          clinician_data,
+          options = list(columnDefs = list(list(targets = "_all", searchable = TRUE)), dom = 't', paging = FALSE),
+          rownames = FALSE,
+          filter = "bottom"
+        )
+      })
     )
   )
 )
